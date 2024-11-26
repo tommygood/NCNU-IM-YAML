@@ -1,0 +1,11 @@
+version : '3'
+
+services :
+  html :
+    image : httpd:latest
+    container_name : teacher
+    volumes :
+      - ./teacher:/usr/local/apache2/htdocs/
+    restart : always
+    ports :
+      - "8893:80"
