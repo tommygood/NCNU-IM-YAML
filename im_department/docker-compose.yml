@@ -5,13 +5,13 @@ services:
      image: mysql:5.7
      container_name: mysql_im
      volumes:
-       - /var/www/im/db_data:/var/lib/mysql
+       - db_data:/var/lib/mysql
      restart: always
      environment:
        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-       MYSQL_DATABASE: ${MYSQL_DATABASE}
-       MYSQL_USER: ${MYSQL_USER}
-       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+       MYSQL_DATABASE: ${WORDPRESS_DB_NAME}
+       MYSQL_USER: ${WORDPRESS_DB_USER}
+       MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
  
    wordpress:
      container_name: wordpress_im
@@ -22,12 +22,14 @@ services:
        - "8888:80"
      restart: always
      volumes:
-       - /var/www/im/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
        - ./ai1wm-backups:/var/www/html/wp-content/ai1wm-backups
+       - wp-content:/var/www/html/wp-content
      environment:
        WORDPRESS_DB_HOST: db:3306
        WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
        WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
        WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
 volumes:
-    db_data: {}
+    db_data:
+    wp-content:
